@@ -1,0 +1,20 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+    <h1>{{commit_class}}</h1>
+    {% if not repositories %}
+        no results
+    {% endif %}
+    {% for repository in repositories %}
+    {{repository.commit_class}}
+        <h2>{{loop.index}}. {{ repository.name }}</h2>
+        <h3> Created {{ repository.created_at }}</h3>
+        <a href="{{repository.html_url}}"><img src="{{ repository.avatar_url }}" alt="avatar" height="42" width="42"/></a>
+        {{ repository.owner_login }}
+        <h3>LastCommit</h3>
+        {{ repository.sha }} {{ repository.commit_message }}  {{ repository.commit_author_name }}
+        <hr/>
+    {% endfor %}
+
+{% endblock %}
