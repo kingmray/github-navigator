@@ -1,6 +1,7 @@
 import requests
 import json
-from flask import render_template, Blueprint, request, jsonify, redirect, session, url_for
+import dateutil.parser
+from flask import render_template, Blueprint, request, jsonify, redirect, session, url_for, flash
 from builtins import KeyError
 from requests_oauthlib import OAuth2Session
 import os
@@ -62,7 +63,15 @@ def callback():
 def repositories():
     if request.method == 'POST':
         query_string = request.form.get('query_string')
-        github = OAuth2Session(client_id, token=session['oauth_token'])
+        if query_string == '':
+            flash('please enter a search term.')
+            return render_template('main/repositories.html')
+        try:
+            github = OAuth2Session(client_id, token=session['oauth_token'])
+        except KeyError:
+            flash('github authorization has gone lost.')
+            return redirect(url_for('.authorization'))
+
         url = 'https://api.github.com/search/repositories?q={0}&sort=updated&page=1&per_page=5'.format(query_string)
         repositories_response = github.get(url)
         repositories = json.loads(repositories_response.text)
@@ -75,12 +84,11 @@ def repositories():
             if commits:
                 #return 'commits {0}'.format(commits[0])
                 commit = commits[0]
-
                 repository = {
                     'name': item['name'],
                     'avatar_url': item['owner']['avatar_url'],
                     'html_url': item['html_url'],
-                    'created_at': item['created_at'],
+                    'created_at': dateutil.parser.parse(item['created_at']),
                     'owner_login': item['owner']['login'],
                     'sha': commit['sha'],
                     'commit_message': commit['commit']['message'],
@@ -90,5 +98,5 @@ def repositories():
                 formated_repositories.append(repository)
 
         #return jsonify({'results': render_template('search/template.html', repositories=formated_repositories)})
-        return render_template('search/template.html', repositories=formated_repositories)
+        return render_template('search/template.html', repositories=formated_repositories, query_string=query_string)
     return render_template('main/repositories.html')
