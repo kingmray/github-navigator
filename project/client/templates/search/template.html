@@ -7,7 +7,7 @@
         <h1>Results for "{{ query_string }}"</h1>
         {% for repository in repositories %}
             <h2>{{loop.index}}. {{ repository.name }}</h2>
-            <h3> Created {{ repository.created_at.strftime('%Y-%m-%d') }}</h3>
+            <h3> Created {{ repository.created_at }}</h3>
             <a href="{{repository.html_url}}"><img src="{{ repository.avatar_url }}" alt="avatar" height="42" width="42"/></a>
             {{ repository.owner_login }}
             <h3>LastCommit</h3>
