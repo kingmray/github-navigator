@@ -1,2 +1,18 @@
 # github-navigator
-It should be able to search GitHub repositories by given search term and present them as html page.
+
+Small Flask Application the uses the GitHub API to search Repositories for Topics.
+
+## installation
+
+```sh
+
+virtualenv env
+pip install -r requirements.txt
+python manage.py runserver -h 0.0.0.0 -p 8080
+```
+
+## run tests
+
+```
+python manage.py test
+```

@@ -1,0 +1,23 @@
+cover.txt
+
+this is a smal flask application that solves your requirements.
+
+authentification is done by GitHubs Oauth2 api Web workflow (see views.py)
+
+INSTALLATION
+
+virtualenv env
+pip install -r requirements.txt
+python manage.py runserver -h 0.0.0.0 -p 8080
+
+DEPENDENCIES
+
+all dependencies are decleared in requirements.txt
+
+RUN TESTS
+
+python manage.py test
+
+
+
+have fun, be careful ;) best Ray

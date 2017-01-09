@@ -50,8 +50,6 @@ class GitHubFormater(object):
             'commit_author_name': self.getFieldFromDict(commit, ['commit','author','name'])
         }
 
-        self.log.debug( "this= %r", repository )
-
         return repository
 
     def formatDate(self, dateStr):
